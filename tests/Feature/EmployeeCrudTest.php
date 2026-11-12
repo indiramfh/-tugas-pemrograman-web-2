@@ -95,3 +95,17 @@ test('an employee cannot take another employee number', function () {
     ]))
         ->assertSessionHasErrors('employee_number');
 });
+
+test('an employee can be deleted from the list', function () {
+    $employee = Employee::factory()->create();
+
+    $this->get(route('employees.index'))
+        ->assertOk()
+        ->assertSee('Hapus');
+
+    $this->delete(route('employees.destroy', $employee))
+        ->assertRedirect(route('employees.index'))
+        ->assertSessionHas('success');
+
+    $this->assertDatabaseMissing('employees', ['id' => $employee->id]);
+});

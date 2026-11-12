@@ -36,6 +36,12 @@
                         <td>{{ $employee->employment_status }}</td>
                         <td>
                             <a class="btn btn-warning btn-sm" href="{{ route('employees.edit', $employee) }}" role="button">Edit</a>
+                            <form method="POST" action="{{ route('employees.destroy', $employee) }}" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Hapus data karyawan ini?')">Hapus</button>
+                            </form>
                         </td>
                     </tr>
                 @empty

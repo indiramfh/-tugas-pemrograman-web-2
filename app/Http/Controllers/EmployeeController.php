@@ -41,6 +41,13 @@ class EmployeeController extends Controller
         return to_route('employees.index')->with('success', 'Data karyawan berhasil diperbarui.');
     }
 
+    public function destroy(Employee $employee): RedirectResponse
+    {
+        $employee->delete();
+
+        return to_route('employees.index')->with('success', 'Data karyawan berhasil dihapus.');
+    }
+
     private function validatedData(Request $request, ?Employee $employee = null): array
     {
         return $request->validate([
