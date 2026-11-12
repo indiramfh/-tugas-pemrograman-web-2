@@ -1,6 +1,12 @@
 <x-app>
     <x-slot:title>Data Karyawan</x-slot:title>
 
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+    @endif
+
+    <a class="btn btn-primary mb-3" href="{{ route('employees.create') }}" role="button">Tambah Karyawan</a>
+
     <div class="table-responsive">
         <table class="table table-bordered border-dark table-hover align-middle">
             <thead class="table-light">
