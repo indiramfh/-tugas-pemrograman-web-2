@@ -29,6 +29,18 @@ class EmployeeController extends Controller
         return to_route('employees.index')->with('success', 'Data karyawan berhasil ditambahkan.');
     }
 
+    public function edit(Employee $employee): View
+    {
+        return view('employees.edit', compact('employee'));
+    }
+
+    public function update(Request $request, Employee $employee): RedirectResponse
+    {
+        $employee->update($this->validatedData($request, $employee));
+
+        return to_route('employees.index')->with('success', 'Data karyawan berhasil diperbarui.');
+    }
+
     private function validatedData(Request $request, ?Employee $employee = null): array
     {
         return $request->validate([

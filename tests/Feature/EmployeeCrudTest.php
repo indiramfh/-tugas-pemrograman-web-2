@@ -60,3 +60,38 @@ test('duplicate employee numbers are rejected', function () {
         ->post(route('employees.store'), employeePayload())
         ->assertSessionHasErrors('employee_number');
 });
+
+test('an employee can be updated from the edit form', function () {
+    $employee = Employee::factory()->create(['employee_number' => 'EMP-002']);
+
+    $this->get(route('employees.index'))
+        ->assertOk()
+        ->assertSee('Edit');
+
+    $this->get(route('employees.edit', $employee))
+        ->assertOk()
+        ->assertSee('Edit Karyawan');
+
+    $this->put(route('employees.update', $employee), employeePayload([
+        'employee_number' => 'EMP-002',
+        'name' => 'Siti Aminah Putri',
+    ]))
+        ->assertRedirect(route('employees.index'))
+        ->assertSessionHas('success');
+
+    $this->assertDatabaseHas('employees', [
+        'id' => $employee->id,
+        'employee_number' => 'EMP-002',
+        'name' => 'Siti Aminah Putri',
+    ]);
+});
+
+test('an employee cannot take another employee number', function () {
+    $employee = Employee::factory()->create(['employee_number' => 'EMP-002']);
+    Employee::factory()->create(['employee_number' => 'EMP-003']);
+
+    $this->put(route('employees.update', $employee), employeePayload([
+        'employee_number' => 'EMP-003',
+    ]))
+        ->assertSessionHasErrors('employee_number');
+});

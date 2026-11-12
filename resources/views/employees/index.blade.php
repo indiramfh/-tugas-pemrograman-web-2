@@ -17,6 +17,7 @@
                     <th scope="col">Jabatan</th>
                     <th scope="col">Departemen</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,10 +34,13 @@
                         <td>{{ $employee->position }}</td>
                         <td>{{ $employee->department }}</td>
                         <td>{{ $employee->employment_status }}</td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" href="{{ route('employees.edit', $employee) }}" role="button">Edit</a>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="py-4 text-center text-body-secondary">Belum ada data karyawan.</td>
+                        <td colspan="7" class="py-4 text-center text-body-secondary">Belum ada data karyawan.</td>
                     </tr>
                 @endforelse
             </tbody>
